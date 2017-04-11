@@ -1,0 +1,10 @@
+bumpversion
+gitpython
+tox
+pip
+wheel
+check-manifest
+readme_renderer
+flake8
+pytest
+pytest-cov

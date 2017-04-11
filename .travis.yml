@@ -1,0 +1,51 @@
+sudo: false
+language: python
+python:
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - pypy
+cache: pip
+env:
+  global:
+    - secure: uhTXp8tSzNJvBAINKllCYt8vTtccMeoauVYMguMOkiyw6Z5FeBNeihNmvc4cba7JR7GR/hbnatE70mfiprzBty/kaGJ0uwobF0CjCKdjuDOmyKdj8g94wSIJVgqBIjDhE6+TIWxHii0sFh5uI7rYf2rVlCbHlREj5w/42v89ujDCOyH83ppcAgotGxphLa8nisQyiAlaO12ExOGz6B1hQwL9a4Mt5oZSGj9vmEgu2yQm5aMp0yZkl1kUzreAgAwPlxF/qWtH12S06PZVZqK6zMNNbysTBX62kcTiaCymDHFiozu7pkuHS2msbEriN/7zYzBWHWgcUN4m7Ess6c7o7XMw3TyOux4XQ7BO3K46VMSjk6a9fKwSmhVRto8Avut5KxK65UVAAKtheTBgfNFpjfUEaoIn1+AXgJqf/d7UhIhIZ8ON2dBjbuix/Syb+5C56bgqhfGK3yblIvLABEyOFzej2IizaKtcxPOMrPXNNkLB2kePYtCsXlm3pMlIRh3O+KyIzFo5zntoMJy/QqMsMSLPL937dlxiriwu4meYcZNLX+swS5mXhhxfvFFbaMAiFjUYEoPnVajs5DqRAm0QM3Y3fUKShyOf1PYSKQ5iW/auSsThlreTrS1Q5iIJJof2/Hc0ZbDQnYNSN4jzkziTZyxonwAipY1qJDb7+36uv3E=
+install: pip install gitpython tox-travis coveralls
+script:
+  - python setup.py version
+  - tox
+after_success: coveralls
+notifications:
+  email: false
+deploy:
+  - provider: pypi
+    distributions: sdist bdist_wheel
+    server: https://testpypi.python.org/pypi
+    skip_cleanup: true
+    user: thomasstreet
+    password:
+      secure: do5b7c4Y5h1sNjI03J/2PBj0aFP7QetoYAlOIBVK+N/u6mnQKxRvatQa+mXih+Up8lMEDulA2OSyRS/Ft2iqbnG9duT5lR1Ed4M0tFd7yimtC0Wqx+0G/tDQ7z6+gjAZK/z/W51QAZYucvdYsm6UW4taPkiLDpWO0ghbU5Aq/PKn23VADrvjwr/ZInCJOPZRkm09fUTzsyZBt5iknKenf0js6WUkufh3SdIa47OD5M35e7YaPoIHzM8VF9CPvGVcSGEqd0qAeQnr8/1p3fNKp/1lguX1/kN7upn5OCN5TAjB8+OaSIjyqaalamTEAqgf7t4YIM0zrZD7ooZoJQVsOHBpEtpHO807Do1tmexejYlG1JI+wLSKQmGP3tIdIoZvCEOCTOJKbwYj0dO0uXbHDx6vYaw+9T0HxYN8zrTchYeAXGIMz1zr2EYu+hTrxVJL+/31s0IHiRPLD1E4dsbyZEMQFil5LXMZuCdR4YJWnQ97sdkzZa006HXTkoBGhKYq+Q4X+G22gnmcFyRaeogs81CSo4+H734BSOF13dFLgGFJ6Y0uTyV216HN30QX3a65LEqEN7MW8y8uxwmcxw2VApn1VzjM2cQTz8t82H7cZrU85xry7FbqRvq2EeQciuFxZsuVkiWK9MEuL+AAcUrj1CwTEXvwG7McEJhLcBOVtu0=
+    on:
+      python: "2.7"
+      branch: master
+  - provider: pypi
+    distributions: sdist bdist_wheel
+    skip_cleanup: true
+    user: thomasstreet
+    password:
+      secure: do5b7c4Y5h1sNjI03J/2PBj0aFP7QetoYAlOIBVK+N/u6mnQKxRvatQa+mXih+Up8lMEDulA2OSyRS/Ft2iqbnG9duT5lR1Ed4M0tFd7yimtC0Wqx+0G/tDQ7z6+gjAZK/z/W51QAZYucvdYsm6UW4taPkiLDpWO0ghbU5Aq/PKn23VADrvjwr/ZInCJOPZRkm09fUTzsyZBt5iknKenf0js6WUkufh3SdIa47OD5M35e7YaPoIHzM8VF9CPvGVcSGEqd0qAeQnr8/1p3fNKp/1lguX1/kN7upn5OCN5TAjB8+OaSIjyqaalamTEAqgf7t4YIM0zrZD7ooZoJQVsOHBpEtpHO807Do1tmexejYlG1JI+wLSKQmGP3tIdIoZvCEOCTOJKbwYj0dO0uXbHDx6vYaw+9T0HxYN8zrTchYeAXGIMz1zr2EYu+hTrxVJL+/31s0IHiRPLD1E4dsbyZEMQFil5LXMZuCdR4YJWnQ97sdkzZa006HXTkoBGhKYq+Q4X+G22gnmcFyRaeogs81CSo4+H734BSOF13dFLgGFJ6Y0uTyV216HN30QX3a65LEqEN7MW8y8uxwmcxw2VApn1VzjM2cQTz8t82H7cZrU85xry7FbqRvq2EeQciuFxZsuVkiWK9MEuL+AAcUrj1CwTEXvwG7McEJhLcBOVtu0=
+    on:
+      python: "2.7"
+      branch: master
+      tags: true
+  - provider: releases
+    api_key:
+      secure: mM2wzXEK0hXDEFXNDUUS2kEXOhUXeitU1FeFtJ455DBz0GiQHmcbGTnrmWbM0rc19MrKrHMwYfnPW2JUB3gIwwEm3a9EhlPzOYUnRadHGfYbMElL8dipLq81LN5hMoZKku6KiSyiWY7n4aqIjdBPSBM43Neoy48mZP0MX2G5tgenKYRo59OfYOXXDjWT7hnJnk6Sa6GHxlIZJm4cLcoea/egE5oJdm1XWWnSTLOeMncGLiXGyE2iBlABrJxXSaq5PIybFTHzUmvI/Fz76p+PgW6IDbXrQxsNtxwoi/kP8h9H91IRimjFX7hBLM2NUjPdv9ktg91nX2gXEAj2YFnfbfK6FkFoFN/KSZAaAlouFqSBpVBDD+CswH4f8JoBBkgnJUUsVEQs3YpY5hgHVxdGHIcO2mPgwB+jmK028HYzFeJzN6UN8FX+ivkDq98EkJKCjufTrkTohreKycFD6Hcsd+EJP14Tbin1XeHCNNmoBPPmE+8CcRdQEmUQt/fK+TvbHySFdFs0PEvXvKpA2NOUXklDUJKEIGKt4wcn6g0be1LkRG9BePTkPed1QdqqhjAAcb3aN2oDE6aCtXZNaAzELTc9dAMPRHL6QP/Xa3RcJZZ32m2oQwUzUtJkD2NI4Y6312/+31L/cmQ5LXucoouQxrAH8oCA9SNkxjCLZx/miRo=
+    file_glob: true
+    file: dist/*
+    skip_cleanup: true
+    on:
+      python: "2.7"
+      branch: master
+      tags: true
