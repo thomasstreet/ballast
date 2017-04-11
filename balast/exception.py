@@ -1,0 +1,2 @@
+class BalastException(Exception):
+    pass
