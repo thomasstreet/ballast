@@ -1,7 +1,7 @@
 import abc
 import threading
 from Queue import Queue
-from server import Server
+from discovery import Server
 from exception import BalastException
 
 
@@ -52,7 +52,7 @@ class RoundRobinRule(Rule):
             if self._queue.empty():
                 servers = self._load_balancer.reachable_servers
                 if len(servers) == 0:
-                    raise Exception("No reachable servers found!")
+                    raise BalastException("No reachable servers found!")
                 sorted_by_priority = sorted(servers)
                 for server in sorted_by_priority:
                     self._queue.put(server)

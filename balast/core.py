@@ -1,6 +1,6 @@
 import logging
 import gevent
-from server import ServerList
+from discovery import ServerList
 from rule import Rule, RoundRobinRule
 from ping import (
     Ping,

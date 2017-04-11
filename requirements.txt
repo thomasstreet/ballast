@@ -6,5 +6,7 @@ wheel
 check-manifest
 readme_renderer
 flake8
+gevent
+mock
 pytest
 pytest-cov

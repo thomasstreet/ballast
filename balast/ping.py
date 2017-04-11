@@ -1,8 +1,10 @@
 import abc
+import logging
 import socket
 import requests
+from timeit import default_timer as timer
 from multiprocessing.pool import ThreadPool, Pool
-from server import Server, ServerList
+from discovery import Server, ServerList
 
 
 class Ping(object):
@@ -11,6 +13,18 @@ class Ping(object):
 
     def __init__(self):
         self.max_ping_time = None
+        self._logger = logging.getLogger('balast')
+
+    def __getstate__(self):
+
+        # logger can't be pickeled
+        d = self.__dict__.copy()
+        del d['_logger']
+
+        return d
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
 
     @abc.abstractmethod
     def is_alive(self, server):
@@ -22,6 +36,8 @@ class DummyPing(Ping):
     def is_alive(self, server):
 
         assert isinstance(server, Server)
+
+        self._logger.debug("Ping succeeded for server: %s", server)
 
         return True
 
@@ -35,8 +51,11 @@ class SocketPing(Ping):
             s.connect((server.address, server.port))
             s.close()
 
+            self._logger.debug("Ping succeeded for server: %s", server)
+
             return True
         except:
+            self._logger.warn("Ping failed for server: %s", server)
             return False
 
 
@@ -63,24 +82,36 @@ class UrlPing(Ping):
             )
 
             result = requests.get(url)
+
+            self._logger.debug("Ping succeeded for server: %s", server)
+
             return result.ok
         except:
+            self._logger.warn("Ping failed for server: %s", server)
             return False
 
 
 class PingStrategy(object):
 
+    __metaclass__ = abc.ABCMeta
+
+    def __init__(self):
+        self._logger = logging.getLogger('balast')
+
+    def __getstate__(self):
+
+        # logger can't be pickeled
+        d = self.__dict__.copy()
+        del d['_logger']
+
+        return d
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+
+    @abc.abstractmethod
     def ping(self, ping, servers):
-
-        assert isinstance(ping, Ping)
-        assert isinstance(servers, ServerList)
-
-        # returns a list of booleans
-        results = []
-        for s in servers.get_servers():
-            results.append(False)
-
-        return results
+        return []
 
 
 class SerialPingStrategy(PingStrategy):
@@ -90,12 +121,18 @@ class SerialPingStrategy(PingStrategy):
         assert isinstance(ping, Ping)
         assert isinstance(servers, ServerList)
 
+        start_time = timer()
+
         # returns a list of booleans
         results = []
         for s in servers.get_servers():
             is_alive = ping.is_alive(s)
             s._is_alive = is_alive
             results.append(s)
+
+        end_time = timer() - start_time
+
+        self._logger.debug("Pinged %s servers in %s seconds", len(results), end_time)
 
         return results
 
@@ -109,12 +146,22 @@ def _ping_in_background(ping, server):
 class AsyncPoolPingStrategy(PingStrategy):
 
     def __init__(self, pool_type):
+        super(AsyncPoolPingStrategy, self).__init__()
         self._pool_type = pool_type
+
+    def __getstate__(self):
+        s = super(AsyncPoolPingStrategy, self).__getstate__()
+        return s
+
+    def __setstate__(self, state):
+        pass
 
     def ping(self, ping, servers):
 
         assert isinstance(ping, Ping)
         assert isinstance(servers, ServerList)
+
+        start_time = timer()
 
         futures = []
         results = []
@@ -132,6 +179,10 @@ class AsyncPoolPingStrategy(PingStrategy):
             results.append(server)
 
         pool.close()
+
+        end_time = timer() - start_time
+
+        self._logger.debug("Pinged %s servers in %s seconds", len(results), end_time)
 
         return results
 
@@ -155,6 +206,8 @@ class GeventPingStrategy(PingStrategy):
         assert isinstance(ping, Ping)
         assert isinstance(servers, ServerList)
 
+        start_time = timer()
+
         import gevent
 
         results = []
@@ -172,5 +225,9 @@ class GeventPingStrategy(PingStrategy):
         for g in greenlets:
             server = g.get()
             results.append(server)
+
+        end_time = timer() - start_time
+
+        self._logger.debug("Pinged %s servers in %s seconds", len(results), end_time)
 
         return results
