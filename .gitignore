@@ -4,6 +4,7 @@
 *.pyc
 *.egg-info
 .eggs
+.coverage*
 
 /.tox/
 /.cache/
