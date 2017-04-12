@@ -1,7 +1,10 @@
 import abc
 import logging
 import socket
-from dns import resolver, rdatatype
+from dns import resolver, rdatatype, exception
+from dns.rdtypes.IN.A import A
+from dns.rdtypes.ANY.CNAME import CNAME
+from balast.exception import BalastException
 from balast.discovery import ServerList, Server
 
 
@@ -83,7 +86,14 @@ class DnsServiceRecordList(DnsRecordList):
 
             # iterate the results, generate server objects
             for i, srv in enumerate(answer):
-                address = answer.response.additional[0].items[i].address
+                rdata = answer.response.additional[0].items[i]
+                if isinstance(rdata, A):
+                    address = rdata.address
+                elif isinstance(rdata, CNAME):
+                    address = unicode(rdata.target)
+                else:
+                    raise BalastException('Unexpected DNS record: %s' % rdata)
+
                 ttl = answer.response.additional[0].ttl
                 s = Server(
                     address,
@@ -97,5 +107,5 @@ class DnsServiceRecordList(DnsRecordList):
 
                 yield s
 
-        except (resolver.NXDOMAIN, resolver.NoNameservers, resolver.Timeout):
+        except (exception.DNSException, BalastException):
             return
