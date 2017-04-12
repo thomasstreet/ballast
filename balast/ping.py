@@ -13,7 +13,7 @@ class Ping(object):
 
     def __init__(self):
         self.max_ping_time = None
-        self._logger = logging.getLogger('balast')
+        self._logger = logging.getLogger(self.__module__)
 
     def __getstate__(self):
 
@@ -96,7 +96,7 @@ class PingStrategy(object):
     __metaclass__ = abc.ABCMeta
 
     def __init__(self):
-        self._logger = logging.getLogger('balast')
+        self._logger = logging.getLogger(self.__module__)
 
     def __getstate__(self):
 

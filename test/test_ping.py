@@ -15,9 +15,6 @@ from balast.ping import (
     GeventPingStrategy
 )
 
-import logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s [%(threadName)s] [%(levelname)s] %(name)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S %z')
-
 
 class _MockPing(Ping):
 

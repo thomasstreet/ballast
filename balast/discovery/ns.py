@@ -17,7 +17,7 @@ class DnsRecordList(ServerList):
     def __init__(self, dns_qname, dns_host=None, dns_port=None):
 
         self._dns_qname = dns_qname
-        self._logger = logging.getLogger('balast')
+        self._logger = logging.getLogger(self.__module__)
 
         # create a DNS resolver that caches results
         self._dns_resolver = resolver.Resolver()

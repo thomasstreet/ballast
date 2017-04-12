@@ -15,7 +15,7 @@ class ConsulRestRecordList(ServerList):
         self.dc = dc
         self.near = near
         self.tag = tag
-        self._logger = logging.getLogger('balast')
+        self._logger = logging.getLogger(self.__module__)
 
     def get_servers(self):
 

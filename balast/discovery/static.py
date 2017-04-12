@@ -1,10 +1,13 @@
+import logging
 from balast.discovery import Server, ServerList
+from balast.exception import BalastException
 
 
 class StaticServerList(ServerList):
 
     def __init__(self, servers):
         self._servers = set()
+        self._logger = logging.getLogger(self.__module__)
 
         for server in servers:
 
@@ -18,11 +21,12 @@ class StaticServerList(ServerList):
                 else:
                     self.add_server(parts[0])
             else:
-                raise Exception('Server was in unexpected format: "%s"' % server)
+                raise BalastException('Server string was in unexpected format: "%s"' % server)
 
     def add_server(self, address, port=80, weight=1, priority=1):
         s = Server(address, port, weight, priority)
         self._servers.add(s)
 
     def get_servers(self):
+        self._logger.debug("Resolved %s servers", len(self._servers))
         return set(self._servers)
