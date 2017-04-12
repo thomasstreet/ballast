@@ -16,3 +16,8 @@ class BalastException(Exception):
             message = self._DEFAULT_MSG
 
         super(BalastException, self).__init__(message)
+
+
+class NoReachableServersException(BalastException):
+
+    _DEFAULT_MSG = 'No reachable servers found!'
