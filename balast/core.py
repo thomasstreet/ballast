@@ -37,7 +37,7 @@ class LoadBalancer(object):
         self._stats = LoadBalancerStats()
         self._rule.load_balancer = self
         self._servers = set()
-        self._logger = logging.getLogger(self.__class__.__name__)
+        self._logger = logging.getLogger(self.__module__)
 
         # start pinging our servers
         self._start_ping_timer()
@@ -92,10 +92,15 @@ class LoadBalancer(object):
         return server
 
     def mark_server_down(self, server):
+        self._logger.debug("Marking server down: %s", server)
         server._is_alive = False
 
     def ping(self, server=None):
-        pass
+        if server is None:
+            self._ping_all_servers()
+        else:
+            is_alive = self._ping.is_alive(server)
+            server._is_alive = is_alive
 
     def _ping_all_servers(self):
 
@@ -111,7 +116,11 @@ class LoadBalancer(object):
 
     def _ping_loop(self):
         while True:
-            self._ping_all_servers()
+            try:
+                self._ping_all_servers()
+            except BaseException as e:
+                self._logger.error("There was an error pinging servers: %s", e)
+
             gevent.sleep(self._ping_interval)
 
 
