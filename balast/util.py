@@ -4,15 +4,18 @@ import urllib
 
 class UrlBuilder(object):
 
+    DEFAULT_SCHEME = 'http'
+    DEFAULT_PORT = 80
+
     def __init__(self):
-        self._scheme = None
-        self._hostname = None
-        self._port = None
-        self._path = None
+        self._scheme = ''
+        self._hostname = ''
+        self._port = ''
+        self._path = ''
         self._query = dict()
-        self._username = None
-        self._password = None
-        self._fragment = None
+        self._username = ''
+        self._password = ''
+        self._fragment = ''
 
     @staticmethod
     def from_url(url):
@@ -30,14 +33,14 @@ class UrlBuilder(object):
 
     @staticmethod
     def from_parts(
-            scheme=None,
-            username=None,
-            password=None,
-            hostname=None,
+            scheme=DEFAULT_SCHEME,
+            username='',
+            password='',
+            hostname='',
             port=None,
-            path=None,
-            query=None,
-            fragment=None
+            path='',
+            query='',
+            fragment=''
     ):
 
         builder = UrlBuilder().\
@@ -73,6 +76,9 @@ class UrlBuilder(object):
         return self.build()
 
     def scheme(self, value):
+
+        assert value is None or isinstance(value, basestring)
+
         self._scheme = value
         return self
 
@@ -85,39 +91,61 @@ class UrlBuilder(object):
         return self
 
     def hostname(self, value):
-        self._hostname = value
+
+        assert value is None or isinstance(value, basestring)
+
+        self._hostname = value if value is not None else ''
         return self
 
     def port(self, value):
+
+        assert value is None or isinstance(value, int)
+
         self._port = value
         return self
 
     def path(self, value):
+
+        assert value is None or isinstance(value, basestring)
+
         self._path = value
         return self
 
     def username(self, value):
+
+        assert value is None or isinstance(value, basestring)
+
         self._username = value
         return self
 
     def password(self, value):
+
+        assert value is None or isinstance(value, basestring)
+
         self._password = value
         return self
 
     def fragment(self, value):
+
+        assert value is None or isinstance(value, basestring)
+
         self._fragment = value
         return self
 
     def add_query_param(self, key, value):
 
+        assert key is None or isinstance(key, basestring)
+
         if key not in self._query:
             self._query[key] = []
 
-        self._query[key].append(value)
+        self._query[key].append(unicode(value))
 
         return self
 
     def remove_query_param(self, key, value=None):
+
+        assert key is None or isinstance(key, basestring)
 
         # nothing to do if the key isn't in there
         if key not in self._query:
@@ -133,7 +161,7 @@ class UrlBuilder(object):
         # value from the query param list for
         # the specified key
         l = self._query[key]
-        l.remove(value)
+        l.remove(unicode(value))
 
         # if there are no more values,
         # remove the key from the dictionary
@@ -143,6 +171,9 @@ class UrlBuilder(object):
         return self
 
     def append_path(self, path):
+
+        assert path is None or isinstance(path, basestring)
+
         base = self._path
 
         if not base.endswith('/'):
@@ -167,7 +198,7 @@ class UrlBuilder(object):
 
     def _build_host(self):
 
-        if self._username is not None:
+        if self._username is not None and self._username != '':
             host = '{}:{}@{}'.format(
                 self._username,
                 self._password,
@@ -176,7 +207,7 @@ class UrlBuilder(object):
         else:
             host = self._hostname
 
-        if self._port is not None:
+        if self._port is not None and self._port != self.DEFAULT_PORT:
             host += ':{}'.format(self._port)
 
         return host
