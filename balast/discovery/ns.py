@@ -90,7 +90,7 @@ class DnsServiceRecordList(DnsRecordList):
                 if isinstance(rdata, A):
                     address = rdata.address
                 elif isinstance(rdata, CNAME):
-                    address = unicode(rdata.target)
+                    address = unicode(rdata.target).rstrip('.')
                 else:
                     raise BalastException('Unexpected DNS record: %s' % rdata)
 
