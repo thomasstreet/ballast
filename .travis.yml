@@ -18,6 +18,7 @@ deploy:
     distributions: sdist bdist_wheel
     server: https://testpypi.python.org/pypi
     skip_cleanup: true
+    skip_upload_docs: true
     user: thomasstreet
     password:
       secure: "edWpfcbgw16Vl04Phu9mtmTwbZZtt4PXrCKgBgz80CDR1yP1GUeZt8SN1egolf7trxPBoJyAewe8fWX1ymqRWE2t6PgX28KqSdeSMcKIdXCdO9cVM3J5LwX4JeCN85bD782BDjJFDi71JXmcyskohrWbmoTybbPgfI15Wl7gb3JNNwVc8o43FvKVYSwV4hi/BP0kkHdQmbiDla/klzXIfDq9Vt8wy/UrueGDHYUw2/PN6xc/bRTGggsfjmHGBdPQJUn/3DqRniEOuoz729711IZG7dqrdHfx9qzlc4Xv/FLUqW+hnVK57hSMNd+WLTnrVIeqB57WSRfji1MGcUY+oNPXhsCTf3rciBauc3aVHgsggUlpbqbZJnn6IpGtjKqll3or8l6BeXuzQKgOIKI/ijGAUClSvyH5ZhSR0wD2JL7cYgTs3gTMt4n3uAlSdPsWM/bjm/Nzrr19l8BneSuAFvSl69CQ2r0i36dYsda+4hdaIwFxYUdKKXSEiK5v2YBmYvrQ0MJSx3FCaRT8KBLEZGNDb5bPbqnxS8ZI2S0vlXaz8hB2RsAlx0/QDCi/AQoJTQZOAwBfRmrR1WARrVtjVbAru+YTVGGzlhSfrniQv3e/SNw1esG+Cj2cNqMlFMci54ShIAi8meOem5ZJ3H7OYD6pKF51u1QKCYMWjeGNDCc="
@@ -27,6 +28,7 @@ deploy:
   - provider: pypi
     distributions: sdist bdist_wheel
     skip_cleanup: true
+    skip_upload_docs: true
     user: thomasstreet
     password:
       secure: "edWpfcbgw16Vl04Phu9mtmTwbZZtt4PXrCKgBgz80CDR1yP1GUeZt8SN1egolf7trxPBoJyAewe8fWX1ymqRWE2t6PgX28KqSdeSMcKIdXCdO9cVM3J5LwX4JeCN85bD782BDjJFDi71JXmcyskohrWbmoTybbPgfI15Wl7gb3JNNwVc8o43FvKVYSwV4hi/BP0kkHdQmbiDla/klzXIfDq9Vt8wy/UrueGDHYUw2/PN6xc/bRTGggsfjmHGBdPQJUn/3DqRniEOuoz729711IZG7dqrdHfx9qzlc4Xv/FLUqW+hnVK57hSMNd+WLTnrVIeqB57WSRfji1MGcUY+oNPXhsCTf3rciBauc3aVHgsggUlpbqbZJnn6IpGtjKqll3or8l6BeXuzQKgOIKI/ijGAUClSvyH5ZhSR0wD2JL7cYgTs3gTMt4n3uAlSdPsWM/bjm/Nzrr19l8BneSuAFvSl69CQ2r0i36dYsda+4hdaIwFxYUdKKXSEiK5v2YBmYvrQ0MJSx3FCaRT8KBLEZGNDb5bPbqnxS8ZI2S0vlXaz8hB2RsAlx0/QDCi/AQoJTQZOAwBfRmrR1WARrVtjVbAru+YTVGGzlhSfrniQv3e/SNw1esG+Cj2cNqMlFMci54ShIAi8meOem5ZJ3H7OYD6pKF51u1QKCYMWjeGNDCc="
