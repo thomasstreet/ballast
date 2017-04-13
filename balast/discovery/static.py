@@ -21,7 +21,7 @@ class StaticServerList(ServerList):
                 else:
                     self.add_server(parts[0])
             else:
-                raise BalastException('Server string was in unexpected format: "%s"' % server)
+                raise BalastException('Server was in unexpected format: "%s"' % server)
 
     def add_server(self, address, port=80, weight=1, priority=1):
         s = Server(address, port, weight, priority)

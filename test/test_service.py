@@ -3,8 +3,13 @@ import mock
 from requests import models, exceptions
 from balast import ping, Service, LoadBalancer
 from balast.util import UrlBuilder
+from balast.discovery import Server
 from balast.discovery.static import StaticServerList
-from balast.exception import NoReachableServersException
+from balast.exception import (
+    BalastException,
+    NoReachableServersException,
+    BalastConfigurationException
+)
 
 
 _EXPECTED_SERVERS = ['127.0.0.1', '127.0.0.2']
@@ -23,6 +28,60 @@ class ServiceTest(unittest.TestCase):
         self._service = self._create_service()
         self._load_balancer = self._service._load_balancer
         self._servers = self._load_balancer.servers
+
+    def test_init_with_server_collection(self):
+
+        servers = [
+            Server('127.0.0.1', 80),
+            Server('127.0.0.2', 81)
+        ]
+        # create a service with a collection
+        # of server addresses
+        service = Service(servers)
+
+        # should have auto-created a load balancer
+        load_balancer = service._load_balancer
+        self.assertIsNotNone(load_balancer)
+
+        # should have auto-created a static server list
+        server_list = load_balancer._server_list
+        self.assertIsInstance(server_list, StaticServerList)
+
+        for server in server_list.get_servers():
+            self.assertIn(server.address, _EXPECTED_SERVERS)
+
+    def test_init_with_server_string_collection(self):
+
+        # create a service with a collection
+        # of server addresses
+        service = Service(_EXPECTED_SERVERS)
+
+        # should have auto-created a load balancer
+        load_balancer = service._load_balancer
+        self.assertIsNotNone(load_balancer)
+
+        # should have auto-created a static server list
+        server_list = load_balancer._server_list
+        self.assertIsInstance(server_list, StaticServerList)
+
+        for server in server_list.get_servers():
+            self.assertIn(server.address, _EXPECTED_SERVERS)
+
+    def test_init_with_bad_args(self):
+
+        # no args
+        self.assertRaises(BalastConfigurationException, lambda: Service())
+
+        # positional arg not LoadBalancer or collection
+        self.assertRaises(BalastConfigurationException, lambda: Service('bad-arg!'))
+
+        # collection items not in proper format (either Server or strings)
+        self.assertRaises(BalastException, lambda: Service([1, 2, 3]))
+
+        # positional arg AND LoadBalancer
+        def init_service():
+            Service('bad-arg!', load_balancer=self._load_balancer)
+        self.assertRaises(BalastConfigurationException, init_service)
 
     @mock.patch('balast.service.requests.request', return_value=_MockResponse(200))
     def test_request_ok(self, mock_request):

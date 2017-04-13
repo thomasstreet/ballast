@@ -2,17 +2,52 @@ import logging
 import requests
 from requests.exceptions import RequestException
 from util import UrlBuilder
+from balast.core import LoadBalancer
+from balast.exception import BalastConfigurationException
+from balast.discovery.static import StaticServerList
 
 
 class Service(object):
 
     DEFAULT_REQUEST_TIMEOUT = 10
 
-    def __init__(self, load_balancer, use_https=False, request_timeout=DEFAULT_REQUEST_TIMEOUT):
-        self._load_balancer = load_balancer
-        self._use_https = use_https
-        self._request_timeout = request_timeout
+    def __init__(self, *args, **kwargs):
+        self._load_balancer = kwargs.get('load_balancer')
+        self._use_https = kwargs.get('use_https', False)
+        self._request_timeout = kwargs.get('request_timeout', self.DEFAULT_REQUEST_TIMEOUT)
         self._logger = logging.getLogger(self.__module__)
+
+        # if our load balancer wasn't configured via kwargs
+        # and there are no positional args, we have a problem
+        if self._load_balancer is None and len(args) == 0:
+            raise BalastConfigurationException(
+                "Expected either a collection of server "
+                "addresses OR a balast.LoadBalancer "
+                "instance as an init parameter."
+            )
+
+        # either the load balancer is specified or the collection, not both
+        if self._load_balancer is not None and len(args) > 0:
+            raise BalastConfigurationException(
+                "Keyword arg 'load_balancer' specified in addition to positional arg. "
+                "Please either remove the positional arg, or specify the load balancer "
+                "as the positional arg."
+            )
+
+        # load balancer or collection of servers
+        # can be defined via 1st positional arg
+        # (but only if load balancer not set via kwargs)
+        a = args[0]
+        if isinstance(a, LoadBalancer):
+            self._load_balancer = a
+        elif hasattr(a, '__iter__'):
+            servers = StaticServerList(a)
+            self._load_balancer = LoadBalancer(servers)
+        else:
+            raise BalastConfigurationException(
+                "An invalid configuration parameter was provided: %s" %
+                a
+            )
 
     def request(self, method, url, **kwargs):
 

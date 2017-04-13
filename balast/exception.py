@@ -21,3 +21,7 @@ class BalastException(Exception):
 class NoReachableServersException(BalastException):
 
     _DEFAULT_MSG = 'No reachable servers found!'
+
+
+class BalastConfigurationException(BalastException):
+    pass
