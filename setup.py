@@ -74,16 +74,20 @@ class GenerateVersionCommand(Command):
         return g[0], g[1], revision, g[2], g[3]
 
 
+with open('README.rst', 'r') as f:
+    readme = f.read()
+
+
 setup(name='balast',
       version=get_version(),
       description='Balast client-side load-balancing framework',
-      long_description='Starter project for Balast client-side load-balancing framework',
+      long_description=readme,
       author='Justin Smith',
       author_email='smith.justin.c@gmail.com',
       maintainer='Justin Smith',
       maintainer_email='smith.justin.c@gmail.com',
       license='MIT',
-      url='https://github.com/RadishLLC/balast',
+      url='https://github.com/radishllc/balast',
       packages=find_packages(exclude=['test', 'docs']),
       package_data={
           'balast': ['../version.py', '../LICENSE'],
