@@ -166,6 +166,10 @@ class AsyncPoolPingStrategy(PingStrategy):
         futures = []
         results = []
         server_list = list(servers.get_servers())
+        if not any(server_list):
+            self._logger.debug("Ping failed - no servers to ping!")
+            return results
+
         pool = self._pool_type(processes=len(server_list))
 
         # create our threads in the thread pool
