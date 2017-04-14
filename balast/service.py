@@ -4,6 +4,7 @@ from requests.exceptions import RequestException
 from util import UrlBuilder
 from balast.core import LoadBalancer
 from balast.exception import BalastConfigurationException
+from balast.discovery import ServerList
 from balast.discovery.static import StaticServerList
 
 
@@ -40,6 +41,9 @@ class Service(object):
         a = args[0]
         if isinstance(a, LoadBalancer):
             self._load_balancer = a
+        elif isinstance(a, ServerList):
+            servers = a
+            self._load_balancer = LoadBalancer(servers)
         elif hasattr(a, '__iter__'):
             servers = StaticServerList(a)
             self._load_balancer = LoadBalancer(servers)
