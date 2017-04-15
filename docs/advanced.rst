@@ -48,6 +48,11 @@ is periodically queried by the :class:`~balast.LoadBalancer` for updated :class:
 DNS
 ^^^
 
+**NOTE:** Using DNS features requires additional dependencies.
+From the command line, install the DNS dependencies from pip::
+
+    $ pip install balast[dns]
+
 To use DNS to query :class:`~balast.discovery.Server` instances, configure a :class:`~balast.LoadBalancer` with either a
 :class:`~balast.discovery.ns.DnsARecordList` to query `A` records ::
 

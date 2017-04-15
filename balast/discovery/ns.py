@@ -1,11 +1,19 @@
 import abc
 import logging
 import socket
-from dns import resolver, rdatatype, exception
-from dns.rdtypes.IN.A import A
-from dns.rdtypes.ANY.CNAME import CNAME
-from balast.exception import BalastException
+from balast.exception import BalastException, BalastConfigurationException
 from balast.discovery import ServerList, Server
+
+try:
+    from dns import resolver, rdatatype, exception
+    from dns.rdtypes.IN.A import A
+    from dns.rdtypes.ANY.CNAME import CNAME
+except ImportError:
+    raise BalastException(
+        "Please install optional DNS dependencies "
+        "in order to use this feature: \n\n"
+        "$ pip install balast[dns]"
+    )
 
 
 class DnsRecordList(ServerList):
@@ -27,9 +35,12 @@ class DnsRecordList(ServerList):
             self._dns_resolver.port = dns_port
 
         if dns_host is not None:
-            self._dns_resolver.nameservers = [
-                socket.gethostbyname(dns_host)
-            ]
+            try:
+                self._dns_resolver.nameservers = [
+                    socket.gethostbyname(dns_host)
+                ]
+            except Exception as e:
+                raise BalastConfigurationException(e.message, e)
 
     @abc.abstractmethod
     def get_servers(self):
