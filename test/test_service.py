@@ -7,7 +7,7 @@ from balast.discovery import Server
 from balast.discovery.static import StaticServerList
 from balast.exception import (
     BalastException,
-    NoReachableServersException,
+    NoReachableServers,
     BalastConfigurationException
 )
 
@@ -136,7 +136,7 @@ class ServiceTest(unittest.TestCase):
 
         # will try each server, and mark each down on a 500 response
         # when no servers are left, a NoReachableServersException is thrown
-        self.assertRaises(NoReachableServersException, self._service.request, 'GET', '/relative/path')
+        self.assertRaises(NoReachableServers, self._service.request, 'GET', '/relative/path')
 
         # should have tried twice - once for each server
         self.assertEqual(2, mock_request.call_count)
@@ -197,7 +197,7 @@ class ServiceTest(unittest.TestCase):
 
         # will try each server, and mark each down on a 500 response
         # when no servers are left, a NoReachableServersException is thrown
-        self.assertRaises(NoReachableServersException, self._service.request, 'GET', '/relative/path')
+        self.assertRaises(NoReachableServers, self._service.request, 'GET', '/relative/path')
 
         # should have tried twice - once for each server
         self.assertEqual(2, mock_request.call_count)
@@ -267,7 +267,7 @@ class ServiceTest(unittest.TestCase):
 
         # will try each server, and mark each down on a 500 response
         # when no servers are left, a NoReachableServersException is thrown
-        self.assertRaises(NoReachableServersException, request_call, '/relative/path')
+        self.assertRaises(NoReachableServers, request_call, '/relative/path')
 
         # should have tried twice - once for each server
         self.assertEqual(2, mock_request.call_count)

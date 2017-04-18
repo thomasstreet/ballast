@@ -2,7 +2,7 @@ import abc
 import threading
 from Queue import Queue
 from discovery import Server
-from exception import BalastException, NoReachableServersException
+from exception import BalastException, NoReachableServers
 
 
 class Rule(object):
@@ -52,7 +52,7 @@ class RoundRobinRule(Rule):
             if self._queue.empty():
                 servers = self._load_balancer.reachable_servers
                 if len(servers) == 0:
-                    raise NoReachableServersException()
+                    raise NoReachableServers()
                 sorted_by_priority = sorted(servers)
                 for server in sorted_by_priority:
                     self._queue.put(server)
