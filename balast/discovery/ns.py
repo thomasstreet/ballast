@@ -77,8 +77,8 @@ class DnsARecordList(DnsRecordList):
 
                 yield s
 
-        except resolver.NXDOMAIN, resolver.NoNameservers:
-            yield None
+        except (exception.DNSException, BalastException):
+            return
 
 
 class DnsServiceRecordList(DnsRecordList):

@@ -12,7 +12,7 @@ class Rule(object):
     def __init__(self):
         self._load_balancer = None
 
-    @abc.abstractproperty
+    @property
     def load_balancer(self):
         return self._load_balancer
 
@@ -31,14 +31,6 @@ class RoundRobinRule(Rule):
         super(RoundRobinRule, self).__init__()
         self._lock = threading.Lock()
         self._queue = Queue()
-
-    @property
-    def load_balancer(self):
-        return self._load_balancer
-
-    @load_balancer.setter
-    def load_balancer(self, value):
-        self._load_balancer = value
 
     def choose(self):
 
