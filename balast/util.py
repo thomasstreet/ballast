@@ -1,5 +1,9 @@
-import urlparse
-import urllib
+from past.builtins import basestring, unicode
+try:
+    from urllib.parse import urlparse, urlunparse, urljoin, parse_qs, urlencode
+except ImportError:
+    from urlparse import urlparse, urlunparse, urljoin, parse_qs
+    from urllib import urlencode
 
 
 class UrlBuilder(object):
@@ -19,7 +23,7 @@ class UrlBuilder(object):
 
     @staticmethod
     def from_url(url):
-        parts = urlparse.urlparse(url)
+        parts = urlparse(url)
         return UrlBuilder.from_parts(
             parts.scheme,
             parts.username,
@@ -54,7 +58,7 @@ class UrlBuilder(object):
 
         if query is not None:
             if isinstance(query, basestring):
-                builder._query = urlparse.parse_qs(query)
+                builder._query = parse_qs(query)
             elif isinstance(query, dict):
                 # TODO: validate structure?
                 builder._query = query
@@ -179,7 +183,7 @@ class UrlBuilder(object):
         if not base.endswith('/'):
             base += '/'
 
-        self._path = urlparse.urljoin(base, path)
+        self._path = urljoin(base, path)
 
         return self
 
@@ -190,11 +194,11 @@ class UrlBuilder(object):
         parts[0] = self._scheme
         parts[1] = self._build_host()
         parts[2] = self._path
-        parts[4] = urllib.urlencode(self._query, 1)
+        parts[4] = urlencode(self._query, 1)
         parts[5] = self._fragment
 
         # finally, create the url from the parts
-        return urlparse.urlunparse(parts)
+        return urlunparse(parts)
 
     def _build_host(self):
 

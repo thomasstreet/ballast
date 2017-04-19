@@ -1,5 +1,6 @@
 import logging
 import requests
+from past.builtins import unicode
 from balast.util import UrlBuilder
 from balast.discovery import Server, ServerList
 

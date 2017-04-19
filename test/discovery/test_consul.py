@@ -1,11 +1,23 @@
 import unittest
 import mock
-import urlparse
+from past.builtins import str
 from requests import models
 from balast.discovery.consul import ConsulRestRecordList
+try:
+    from urllib.parse import urlparse, parse_qs
+except ImportError:
+    from urlparse import urlparse, parse_qs
 
 
-_MOCK_RESPONSE = """
+# past.builtins apparently not all that compatible...
+def str_compat(s, encoding):
+    try:
+        return str(s, encoding)
+    except TypeError:
+        return str(s).encode(encoding)
+
+
+_MOCK_RESPONSE = str_compat("""
 [
   {
     "Node":"ins-alb",
@@ -20,7 +32,7 @@ _MOCK_RESPONSE = """
     "ModifyIndex":776311
   }
 ]
-"""
+""", 'utf-8')
 
 
 class _MockResponse(models.Response):
@@ -53,8 +65,8 @@ class ConsulRestRecordListTest(unittest.TestCase):
 
         # verify request url was properly formatted
         args = mock_get_request.call_args[0]
-        actual_url = urlparse.urlparse(args[0])
-        actual_query = urlparse.parse_qs(actual_url.query)
+        actual_url = urlparse(args[0])
+        actual_query = parse_qs(actual_url.query)
 
         self.assertEqual(actual_url.scheme, 'http')
         self.assertEqual(actual_url.hostname, 'my.consul.url')
@@ -80,7 +92,7 @@ class ConsulRestRecordListTest(unittest.TestCase):
 
         # verify request url was properly formatted
         args = mock_get_request.call_args[0]
-        actual_url = urlparse.urlparse(args[0])
+        actual_url = urlparse(args[0])
 
         self.assertEqual(actual_url.scheme, 'http')
         self.assertEqual(actual_url.hostname, 'my.consul.url')

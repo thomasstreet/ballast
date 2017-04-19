@@ -1,3 +1,6 @@
+from past.builtins import basestring
+
+
 class BalastException(Exception):
 
     _DEFAULT_MSG = 'An unexpected error occurred'

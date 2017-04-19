@@ -1,8 +1,8 @@
-from core import LoadBalancer
-from ping import Ping, PingStrategy
-from rule import Rule
-from discovery import Server, ServerList
-from service import Service
+from balast.core import LoadBalancer
+from balast.ping import Ping, PingStrategy
+from balast.rule import Rule
+from balast.discovery import Server, ServerList
+from balast.service import Service
 
 import logging
 try:  # Python 2.7+

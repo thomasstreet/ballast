@@ -1,9 +1,9 @@
 import logging
 import threading
 import time
-from discovery import ServerList
-from rule import Rule, RoundRobinRule
-from ping import (
+from balast.discovery import ServerList
+from balast.rule import Rule, RoundRobinRule
+from balast.ping import (
     Ping,
     SocketPing,
     PingStrategy,

@@ -1,6 +1,10 @@
 import unittest
-import urlparse
+from past.builtins import unicode
 from balast.util import UrlBuilder
+try:
+    from urllib.parse import urlparse, parse_qs
+except ImportError:
+    from urlparse import urlparse, parse_qs
 
 
 class UrlBuilderTest(unittest.TestCase):
@@ -15,8 +19,8 @@ class UrlBuilderTest(unittest.TestCase):
         expected_url = 'http://my-user:my-pass@test.com:8080/some/path?test=hi&test=hi2&other=bye#my-frag/path/to/frag'
         url = UrlBuilder.from_url(expected_url)
 
-        actual_url = urlparse.urlparse(unicode(url))
-        actual_query = urlparse.parse_qs(actual_url.query)
+        actual_url = urlparse(unicode(url))
+        actual_query = parse_qs(actual_url.query)
 
         self.assertEqual(actual_url.scheme, 'http')
         self.assertEqual(actual_url.username, 'my-user')

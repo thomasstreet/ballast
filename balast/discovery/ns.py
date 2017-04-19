@@ -1,6 +1,7 @@
 import abc
 import logging
 import socket
+from past.builtins import unicode
 from balast.exception import BalastException, BalastConfigurationException
 from balast.discovery import ServerList, Server
 

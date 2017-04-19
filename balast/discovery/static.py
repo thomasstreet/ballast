@@ -1,4 +1,5 @@
 import logging
+from past.builtins import basestring
 from balast.discovery import Server, ServerList
 from balast.exception import BalastException
 

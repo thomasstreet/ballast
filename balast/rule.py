@@ -1,8 +1,8 @@
 import abc
 import threading
-from Queue import Queue
-from discovery import Server
-from exception import BalastException, NoReachableServers
+from queue import Queue
+from balast.discovery import Server
+from balast.exception import BalastException, NoReachableServers
 
 
 class Rule(object):

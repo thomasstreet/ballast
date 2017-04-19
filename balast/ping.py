@@ -5,8 +5,8 @@ import socket
 import requests
 from timeit import default_timer as timer
 from multiprocessing.pool import ThreadPool, Pool
-from discovery import Server, ServerList
-from exception import BalastException
+from balast.discovery import Server, ServerList
+from balast.exception import BalastException
 
 
 # current thread name (so we know who 'main' is)

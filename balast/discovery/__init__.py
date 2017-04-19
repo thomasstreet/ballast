@@ -1,4 +1,5 @@
 import abc
+from past.builtins import cmp
 
 
 class Server(object):
@@ -30,6 +31,9 @@ class Server(object):
             self.address == other.address and
             self.port == other.port
         )
+
+    def __lt__(self, other):
+        return self.priority < other.priority
 
     def __cmp__(self, other):
         return cmp(self.priority, other.priority)

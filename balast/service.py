@@ -1,7 +1,8 @@
 import logging
 import requests
+from past.builtins import basestring, unicode
 from requests.exceptions import RequestException
-from util import UrlBuilder
+from balast.util import UrlBuilder
 from balast.core import LoadBalancer
 from balast.exception import BalastConfigurationException
 from balast.discovery import ServerList
@@ -44,7 +45,7 @@ class Service(object):
         elif isinstance(a, ServerList):
             servers = a
             self._load_balancer = LoadBalancer(servers)
-        elif hasattr(a, '__iter__'):
+        elif hasattr(a, '__iter__') and not isinstance(a, basestring):
             servers = StaticServerList(a)
             self._load_balancer = LoadBalancer(servers)
         else:
