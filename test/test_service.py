@@ -292,10 +292,7 @@ class ServiceTest(unittest.TestCase):
     def _create_service():
 
         servers = StaticServerList(_EXPECTED_SERVERS)
-        load_balancer = LoadBalancer(servers, ping=ping.DummyPing())
-        service = Service(load_balancer, use_https=True, request_timeout=0.1)
+        load_balancer = LoadBalancer(servers, ping=ping.DummyPing(), ping_on_start=False)
+        load_balancer.ping()
 
-        import gevent
-        gevent.sleep()
-
-        return service
+        return Service(load_balancer, use_https=True, request_timeout=0.1)

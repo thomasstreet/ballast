@@ -95,9 +95,11 @@ setup(name='balast',
       include_package_data=True,
       setup_requires=['pytest-runner'],
       tests_require=['pytest', 'mock'],
-      install_requires=['requests', 'gevent'],
+      install_requires=['requests'],
       extras_require={
-          'dns': ['dnspython>=1.15.0']
+          'dns': ['dnspython>=1.15.0'],
+          'gevent': ['gevent>=1.2.1'],
+          'all': ['dnspython>=1.15.0', 'gevent>=1.2.1']
       },
       cmdclass={
           'version': GenerateVersionCommand

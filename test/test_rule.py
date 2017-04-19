@@ -25,13 +25,13 @@ class RoundRobinRuleTest(unittest.TestCase):
     def test_equal_choice(self):
 
         servers = StaticServerList(['127.0.0.1', '127.0.0.2', '127.0.0.3'])
-        load_balancer = LoadBalancer(servers, ping=DummyPing())
+        load_balancer = LoadBalancer(servers, ping=DummyPing(), ping_on_start=False)
+
+        # ping our servers once to set them available
+        load_balancer.ping()
 
         rule = RoundRobinRule()
         rule.load_balancer = load_balancer
-
-        import gevent
-        gevent.sleep()
 
         stats = dict()
 
@@ -66,12 +66,9 @@ class RoundRobinRuleTest(unittest.TestCase):
     def test_no_servers_reachable(self):
 
         servers = StaticServerList(['127.0.0.1', '127.0.0.2', '127.0.0.3'])
-        load_balancer = LoadBalancer(servers, ping=_MockPing(False))
+        load_balancer = LoadBalancer(servers, ping=_MockPing(False), ping_on_start=False)
 
         rule = RoundRobinRule()
         rule.load_balancer = load_balancer
-
-        import gevent
-        gevent.sleep()
 
         self.assertRaises(BalastException, rule.choose)

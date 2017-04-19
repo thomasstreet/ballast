@@ -1,10 +1,31 @@
 import abc
 import logging
+import threading
 import socket
 import requests
 from timeit import default_timer as timer
 from multiprocessing.pool import ThreadPool, Pool
 from discovery import Server, ServerList
+
+
+# current thread name (so we know who 'main' is)
+_MAIN_THREAD_NAME = threading.currentThread().name
+
+# the thread name format for our ping threads
+_THREAD_NAME_FORMAT = 'balast-ping-'
+
+
+def _ping_in_background(ping, server):
+
+    # rename the thread according to our convention
+    t = threading.currentThread()
+    if not t.name == _MAIN_THREAD_NAME and not t.name.startswith('balast'):
+        t.setName(_THREAD_NAME_FORMAT + t.name)
+
+    # ping the server
+    server._is_alive = ping.is_alive(server)
+
+    return server
 
 
 class Ping(object):
@@ -25,6 +46,7 @@ class Ping(object):
 
     def __setstate__(self, state):
         self.__dict__.update(state)
+        self._logger = logging.getLogger(self.__module__)
 
     @abc.abstractmethod
     def is_alive(self, server):
@@ -135,12 +157,6 @@ class SerialPingStrategy(PingStrategy):
         self._logger.debug("Pinged %s servers in %s seconds", len(results), end_time)
 
         return results
-
-
-def _ping_in_background(ping, server):
-    is_alive = ping.is_alive(server)
-    server._is_alive = is_alive
-    return server
 
 
 class AsyncPoolPingStrategy(PingStrategy):
