@@ -6,7 +6,7 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-  - "pypy-5.7.1"
+  - "pypy3"
 cache: pip
 env:
   global:
