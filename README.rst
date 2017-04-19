@@ -25,13 +25,17 @@ It is inspired in large part by Netflix's
 
 How to Use
 ---------------
-In its most basic form, you can create a `balast.Service` with a static list of servers::
+In its most basic form, you can create a `balast.Service` with a static list of servers:
+
+.. code-block:: python
 
     >>> import balast
     >>> my_service = balast.Service(['127.0.0.1', '127.0.0.2'])
 
 Now, just use it as you would use the `requests <http://docs.python-requests.org/en/master/user/quickstart/#make-a-request>`_
-package::
+package:
+
+.. code-block:: python
 
     >>> response = my_service.get('/v1/path/to/resource')
     <Response[200]>
