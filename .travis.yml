@@ -45,7 +45,7 @@ deploy:
     api_key:
       secure: vwKH4DLqzbJQmayyoUtgknFegkh3onz/X8rKsmpds2F388GRod6H5sX27lqSA/ivkzjvZvW+ScDM5xtbJNTwMs6uy7Uuv0E0iJDy4g0cuBLr/sVUabxGR+Vc7cesSK4VTqTg2u2I3Zh8dyZUvNMAkIHIUh+nKlpCkhNTdkMd9RYtL50KIwAnz+6reQJfJ6ij7joIu5OlniErxfZPBXeOhkUPVy8nYg0ESa7q2sIOXgZVzjiaM41k0DHDvWE7FPcWBwhAcKzZp3IDtzOd8ogkzac81QiKvSfbMzoGlnHYdzIEa8QR4TkiwmhM9NN4ZMv9+MZIEEGmKT6hbfeJqr59bVFlhlAbinjCPbPvsriof3MomPlVHypcXtDd7i1bZhhFSsQ86FIkjwOzNFNEItN6/zvnavfSKZzjh/ZQL/7UIu5b7KtlEGPcpgoGVYFcGB8spfMq1w4xsOKTXMvomXIVijABatD0W8CvDSoPfV/F9IpuF7BQJAp9qLzaqRJoPFDuJZ9YXgzqIsWOG2vsAbDTfeOu3oQA3nolxoUbrjc3UgJb9oKuGh1AzETZcJXC9Af5eQ2nwy+1sa9pZXSZDYVLb5FjqOOfzOl8sr3KUNeQlHXqsoc+iZtYqWIs6IeXmZ/TfrihsTMz2yVIN0uLPoD9ySbdQdHHCzV1xxykAIKGS5c=
     file_glob: true
-    file: dist/*
+    file: "dist/*"
     skip_cleanup: true
     on:
       python: "2.7"
