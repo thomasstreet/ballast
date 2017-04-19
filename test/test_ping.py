@@ -113,13 +113,7 @@ class SerialPingStrategyTest(unittest.TestCase):
         ping = _MockPing(delay=0.4)
         strategy = SerialPingStrategy()
 
-        start_time = time.time()
         results = strategy.ping(ping, servers)
-        end_time = time.time() - start_time
-
-        # with a delay of 0.4, the strategy
-        # should have taken a bit more than 1 second
-        self.assertGreaterEqual(end_time, 1)
 
         # verify the results
         self.assertEqual(3, len(results))
@@ -139,15 +133,7 @@ class ThreadPoolPingStrategyTest(unittest.TestCase):
         ping = _MockPing(delay=0.4)
         strategy = ThreadPoolPingStrategy()
 
-        start_time = time.time()
         results = strategy.ping(ping, servers)
-        end_time = time.time() - start_time
-
-        # with a delay of 0.4, and 100 threads,
-        # the strategy should still not have taken
-        # much more than 0.4 seconds
-        self.assertGreaterEqual(end_time, 0.4)
-        self.assertLessEqual(end_time, 0.6)
 
         # verify the results
         self.assertEqual(100, len(results))
@@ -167,17 +153,7 @@ class MultiprocessingPoolPingStrategyTest(unittest.TestCase):
         ping = _MockPing(delay=0.4)
         strategy = MultiprocessingPoolPingStrategy()
 
-        start_time = time.time()
         results = strategy.ping(ping, servers)
-        end_time = time.time() - start_time
-
-        # with a delay of 0.4, and 100 processes,
-        # the strategy should still not have taken
-        # much more than a second
-        # a large number of processes is actually a lot
-        # slower than a large number of threads
-        self.assertGreaterEqual(end_time, 0.4)
-        self.assertLessEqual(end_time, 1)
 
         # verify the results
         self.assertEqual(10, len(results))
@@ -197,15 +173,7 @@ class GeventPingStrategyTest(unittest.TestCase):
         ping = _MockPing(delay=0.1)
         strategy = GeventPingStrategy()
 
-        start_time = time.time()
         results = strategy.ping(ping, servers)
-        end_time = time.time() - start_time
-
-        # since gevent (in our non-evented vacuum) in this
-        # case ends up executing serially, the strategy
-        # should take about a second
-        self.assertGreaterEqual(end_time, 1)
-        self.assertLessEqual(end_time, 2)
 
         # verify the results
         self.assertEqual(10, len(results))
