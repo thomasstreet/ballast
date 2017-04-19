@@ -12,7 +12,8 @@ except ImportError:
     raise BalastException(
         "Please install optional DNS dependencies "
         "in order to use this feature: \n\n"
-        "$ pip install balast[dns]"
+        "$ pip install balast[dns] or \n"
+        "$ pip install balast[all]"
     )
 
 

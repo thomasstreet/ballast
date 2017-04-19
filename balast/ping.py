@@ -6,6 +6,7 @@ import requests
 from timeit import default_timer as timer
 from multiprocessing.pool import ThreadPool, Pool
 from discovery import Server, ServerList
+from exception import BalastException
 
 
 # current thread name (so we know who 'main' is)
@@ -228,7 +229,15 @@ class GeventPingStrategy(PingStrategy):
 
         start_time = timer()
 
-        import gevent
+        try:
+            import gevent
+        except ImportError:
+            raise BalastException(
+                "Please install optional gevent dependencies "
+                "in order to use this feature: \n\n"
+                "$ pip install balast[gevent] or \n"
+                "$ pip install balast[all]"
+            )
 
         results = []
         greenlets = []
