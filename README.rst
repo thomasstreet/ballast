@@ -1,20 +1,20 @@
-Balast client-side load-balancing
-=================================
+Ballast client-side load-balancing
+==================================
 
-.. image:: https://img.shields.io/pypi/v/balast.svg
-   :target: https://testpypi.python.org/pypi/balast
+.. image:: https://img.shields.io/pypi/v/ballast.svg
+   :target: https://testpypi.python.org/pypi/ballast
 
-.. image:: https://img.shields.io/pypi/status/balast.svg
-   :target: https://testpypi.python.org/pypi/balast
+.. image:: https://img.shields.io/pypi/status/ballast.svg
+   :target: https://testpypi.python.org/pypi/ballast
 
-.. image:: https://travis-ci.org/RadishLLC/balast.svg?branch=master
-   :target: https://travis-ci.org/RadishLLC/balast
+.. image:: https://travis-ci.org/RadishLLC/ballast.svg?branch=master
+   :target: https://travis-ci.org/RadishLLC/ballast
 
-.. image:: https://coveralls.io/repos/github/RadishLLC/balast/badge.svg?branch=master
-   :target: https://coveralls.io/github/RadishLLC/balast?branch=master
+.. image:: https://coveralls.io/repos/github/RadishLLC/ballast/badge.svg?branch=master
+   :target: https://coveralls.io/github/RadishLLC/ballast?branch=master
 
-.. image:: https://readthedocs.org/projects/balast/badge/?version=latest
-   :target: http://balast.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/ballast/badge/?version=latest
+   :target: http://ballast.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
 
 Framework for client-side load-balancing for inter-process
@@ -25,12 +25,12 @@ It is inspired in large part by Netflix's
 
 How to Use
 ---------------
-In its most basic form, you can create a `balast.Service` with a static list of servers:
+In its most basic form, you can create a `ballast.Service` with a static list of servers:
 
 .. code-block:: python
 
-    >>> import balast
-    >>> my_service = balast.Service(['127.0.0.1', '127.0.0.2'])
+    >>> import ballast
+    >>> my_service = ballast.Service(['127.0.0.1', '127.0.0.2'])
 
 Now, just use it as you would use the `requests <http://docs.python-requests.org/en/master/user/quickstart/#make-a-request>`_
 package:

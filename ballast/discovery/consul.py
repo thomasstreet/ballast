@@ -1,8 +1,8 @@
 import logging
 import requests
 from past.builtins import unicode
-from balast.util import UrlBuilder
-from balast.discovery import Server, ServerList
+from ballast.util import UrlBuilder
+from ballast.discovery import Server, ServerList
 
 
 class ConsulRestRecordList(ServerList):

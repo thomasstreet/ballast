@@ -2,19 +2,19 @@ import abc
 import logging
 import socket
 from past.builtins import unicode
-from balast.exception import BalastException, BalastConfigurationException
-from balast.discovery import ServerList, Server
+from ballast.exception import BallastException, BallastConfigurationException
+from ballast.discovery import ServerList, Server
 
 try:
     from dns import resolver, rdatatype, exception
     from dns.rdtypes.IN.A import A
     from dns.rdtypes.ANY.CNAME import CNAME
 except ImportError:
-    raise BalastException(
+    raise BallastException(
         "Please install optional DNS dependencies "
         "in order to use this feature: \n\n"
-        "$ pip install balast[dns] or \n"
-        "$ pip install balast[all]"
+        "$ pip install ballast[dns] or \n"
+        "$ pip install ballast[all]"
     )
 
 
@@ -42,7 +42,10 @@ class DnsRecordList(ServerList):
                     socket.gethostbyname(dns_host)
                 ]
             except Exception as e:
-                raise BalastConfigurationException(e.message, e)
+                raise BallastConfigurationException(
+                    'Name resolution failed for DNS host: %s' % dns_host,
+                    e
+                )
 
     @abc.abstractmethod
     def get_servers(self):
@@ -78,7 +81,7 @@ class DnsARecordList(DnsRecordList):
 
                 yield s
 
-        except (exception.DNSException, BalastException):
+        except (exception.DNSException, BallastException):
             return
 
 
@@ -105,7 +108,7 @@ class DnsServiceRecordList(DnsRecordList):
                 elif isinstance(rdata, CNAME):
                     address = unicode(rdata.target).rstrip('.')
                 else:
-                    raise BalastException('Unexpected DNS record: %s' % rdata)
+                    raise BallastException('Unexpected DNS record: %s' % rdata)
 
                 ttl = answer.response.additional[0].ttl
                 s = Server(
@@ -120,5 +123,5 @@ class DnsServiceRecordList(DnsRecordList):
 
                 yield s
 
-        except (exception.DNSException, BalastException):
+        except (exception.DNSException, BallastException):
             return

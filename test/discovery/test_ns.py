@@ -1,7 +1,7 @@
 import unittest
 import mock
 from dns import rdatatype, resolver, message, name, rrset
-from balast.discovery.ns import DnsServiceRecordList, DnsARecordList
+from ballast.discovery.ns import DnsServiceRecordList, DnsARecordList
 
 
 class _MockSrvResolver(object):
@@ -53,8 +53,8 @@ class _MockAResolver(object):
 
 class DnsServiceRecordListTest(unittest.TestCase):
 
-    @mock.patch('balast.discovery.ns.resolver.Resolver', return_value=_MockSrvResolver())
-    @mock.patch('balast.discovery.ns.socket.gethostbyname', return_value='10.1.2.3')
+    @mock.patch('ballast.discovery.ns.resolver.Resolver', return_value=_MockSrvResolver())
+    @mock.patch('ballast.discovery.ns.socket.gethostbyname', return_value='10.1.2.3')
     def test_resolve(self, mock_gethostbyname, mock_resolver):
 
         qname = 'my.local-service.'
@@ -82,7 +82,7 @@ class DnsServiceRecordListTest(unittest.TestCase):
         self.assertEqual(actual_qname, qname)
         self.assertEqual(rdtype, rdatatype.SRV)
 
-    @mock.patch('balast.discovery.ns.resolver.Resolver', return_value=_MockSrvResolver())
+    @mock.patch('ballast.discovery.ns.resolver.Resolver', return_value=_MockSrvResolver())
     def test_resolve_with_defaults(self, mock_resolver):
 
         qname = 'my.server.local.'
@@ -109,8 +109,8 @@ class DnsServiceRecordListTest(unittest.TestCase):
 
 class DnsARecordListTest(unittest.TestCase):
 
-    @mock.patch('balast.discovery.ns.resolver.Resolver', return_value=_MockAResolver())
-    @mock.patch('balast.discovery.ns.socket.gethostbyname', return_value='10.1.2.3')
+    @mock.patch('ballast.discovery.ns.resolver.Resolver', return_value=_MockAResolver())
+    @mock.patch('ballast.discovery.ns.socket.gethostbyname', return_value='10.1.2.3')
     def test_resolve(self, mock_gethostbyname, mock_resolver):
 
         qname = 'cns.service.aws-uw2-staging.consul.'
@@ -138,7 +138,7 @@ class DnsARecordListTest(unittest.TestCase):
         self.assertEqual(actual_qname, qname)
         self.assertEqual(rdtype, rdatatype.A)
 
-    @mock.patch('balast.discovery.ns.resolver.Resolver', return_value=_MockAResolver())
+    @mock.patch('ballast.discovery.ns.resolver.Resolver', return_value=_MockAResolver())
     def test_resolve_with_defaults(self, mock_resolver):
 
         qname = 'my.server.local.'

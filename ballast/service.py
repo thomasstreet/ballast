@@ -2,11 +2,11 @@ import logging
 import requests
 from past.builtins import basestring, unicode
 from requests.exceptions import RequestException
-from balast.util import UrlBuilder
-from balast.core import LoadBalancer
-from balast.exception import BalastConfigurationException
-from balast.discovery import ServerList
-from balast.discovery.static import StaticServerList
+from ballast.util import UrlBuilder
+from ballast.core import LoadBalancer
+from ballast.exception import BallastConfigurationException
+from ballast.discovery import ServerList
+from ballast.discovery.static import StaticServerList
 
 
 class Service(object):
@@ -22,15 +22,15 @@ class Service(object):
         # if our load balancer wasn't configured via kwargs
         # and there are no positional args, we have a problem
         if self._load_balancer is None and len(args) == 0:
-            raise BalastConfigurationException(
+            raise BallastConfigurationException(
                 "Expected either a collection of server "
-                "addresses OR a balast.LoadBalancer "
+                "addresses OR a ballast.LoadBalancer "
                 "instance as an init parameter."
             )
 
         # either the load balancer is specified or the collection, not both
         if self._load_balancer is not None and len(args) > 0:
-            raise BalastConfigurationException(
+            raise BallastConfigurationException(
                 "Keyword arg 'load_balancer' specified in addition to positional arg. "
                 "Please either remove the positional arg, or specify the load balancer "
                 "as the positional arg."
@@ -49,7 +49,7 @@ class Service(object):
             servers = StaticServerList(a)
             self._load_balancer = LoadBalancer(servers)
         else:
-            raise BalastConfigurationException(
+            raise BallastConfigurationException(
                 "An invalid configuration parameter was provided: %s" %
                 a
             )

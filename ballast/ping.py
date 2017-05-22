@@ -5,22 +5,22 @@ import socket
 import requests
 from timeit import default_timer as timer
 from multiprocessing.pool import ThreadPool, Pool
-from balast.discovery import Server, ServerList
-from balast.exception import BalastException
+from ballast.discovery import Server, ServerList
+from ballast.exception import BallastException
 
 
 # current thread name (so we know who 'main' is)
 _MAIN_THREAD_NAME = threading.currentThread().name
 
 # the thread name format for our ping threads
-_THREAD_NAME_FORMAT = 'balast-ping-'
+_THREAD_NAME_FORMAT = 'ballast-ping-'
 
 
 def _ping_in_background(ping, server):
 
     # rename the thread according to our convention
     t = threading.currentThread()
-    if not t.name == _MAIN_THREAD_NAME and not t.name.startswith('balast'):
+    if not t.name == _MAIN_THREAD_NAME and not t.name.startswith('ballast'):
         t.setName(_THREAD_NAME_FORMAT + t.name)
 
     # ping the server
@@ -232,11 +232,11 @@ class GeventPingStrategy(PingStrategy):
         try:
             import gevent
         except ImportError:
-            raise BalastException(
+            raise BallastException(
                 "Please install optional gevent dependencies "
                 "in order to use this feature: \n\n"
-                "$ pip install balast[gevent] or \n"
-                "$ pip install balast[all]"
+                "$ pip install ballast[gevent] or \n"
+                "$ pip install ballast[all]"
             )
 
         results = []

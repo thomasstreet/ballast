@@ -1,7 +1,7 @@
 from past.builtins import basestring
 
 
-class BalastException(Exception):
+class BallastException(Exception):
 
     _DEFAULT_MSG = 'An unexpected error occurred'
 
@@ -18,13 +18,13 @@ class BalastException(Exception):
         elif message is None and cause is None:
             message = self._DEFAULT_MSG
 
-        super(BalastException, self).__init__(message)
+        super(BallastException, self).__init__(message)
 
 
-class NoReachableServers(BalastException):
+class NoReachableServers(BallastException):
 
     _DEFAULT_MSG = 'No reachable servers found!'
 
 
-class BalastConfigurationException(BalastException):
+class BallastConfigurationException(BallastException):
     pass

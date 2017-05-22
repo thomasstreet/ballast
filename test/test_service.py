@@ -1,14 +1,14 @@
 import unittest
 import mock
 from requests import models, exceptions
-from balast import ping, Service, LoadBalancer
-from balast.util import UrlBuilder
-from balast.discovery import Server
-from balast.discovery.static import StaticServerList
-from balast.exception import (
-    BalastException,
+from ballast import ping, Service, LoadBalancer
+from ballast.util import UrlBuilder
+from ballast.discovery import Server
+from ballast.discovery.static import StaticServerList
+from ballast.exception import (
+    BallastException,
     NoReachableServers,
-    BalastConfigurationException
+    BallastConfigurationException
 )
 
 
@@ -70,20 +70,20 @@ class ServiceTest(unittest.TestCase):
     def test_init_with_bad_args(self):
 
         # no args
-        self.assertRaises(BalastConfigurationException, lambda: Service())
+        self.assertRaises(BallastConfigurationException, lambda: Service())
 
         # positional arg not LoadBalancer or collection
-        self.assertRaises(BalastConfigurationException, lambda: Service('bad-arg!'))
+        self.assertRaises(BallastConfigurationException, lambda: Service('bad-arg!'))
 
         # collection items not in proper format (either Server or strings)
-        self.assertRaises(BalastException, lambda: Service([1, 2, 3]))
+        self.assertRaises(BallastException, lambda: Service([1, 2, 3]))
 
         # positional arg AND LoadBalancer
         def init_service():
             Service('bad-arg!', load_balancer=self._load_balancer)
-        self.assertRaises(BalastConfigurationException, init_service)
+        self.assertRaises(BallastConfigurationException, init_service)
 
-    @mock.patch('balast.service.requests.request', return_value=_MockResponse(200))
+    @mock.patch('ballast.service.requests.request', return_value=_MockResponse(200))
     def test_request_ok(self, mock_request):
 
         # make our request
@@ -101,35 +101,35 @@ class ServiceTest(unittest.TestCase):
         self.assertIsNone(url._port)
         self.assertEqual(url._path, '/relative/path')
 
-    @mock.patch('balast.service.requests.head', return_value=_MockResponse(200))
+    @mock.patch('ballast.service.requests.head', return_value=_MockResponse(200))
     def test_head_ok(self, mock_request):
         self.assert_request_ok(mock_request, self._service.head)
 
-    @mock.patch('balast.service.requests.options', return_value=_MockResponse(200))
+    @mock.patch('ballast.service.requests.options', return_value=_MockResponse(200))
     def test_options_ok(self, mock_request):
         self.assert_request_ok(mock_request, self._service.options)
 
-    @mock.patch('balast.service.requests.get', return_value=_MockResponse(200))
+    @mock.patch('ballast.service.requests.get', return_value=_MockResponse(200))
     def test_get_ok(self, mock_request):
         self.assert_request_ok(mock_request, self._service.get)
 
-    @mock.patch('balast.service.requests.post', return_value=_MockResponse(200))
+    @mock.patch('ballast.service.requests.post', return_value=_MockResponse(200))
     def test_post_ok(self, mock_request):
         self.assert_request_ok(mock_request, self._service.post)
 
-    @mock.patch('balast.service.requests.put', return_value=_MockResponse(200))
+    @mock.patch('ballast.service.requests.put', return_value=_MockResponse(200))
     def test_put_ok(self, mock_request):
         self.assert_request_ok(mock_request, self._service.put)
 
-    @mock.patch('balast.service.requests.patch', return_value=_MockResponse(200))
+    @mock.patch('ballast.service.requests.patch', return_value=_MockResponse(200))
     def test_patch_ok(self, mock_request):
         self.assert_request_ok(mock_request, self._service.patch)
 
-    @mock.patch('balast.service.requests.delete', return_value=_MockResponse(200))
+    @mock.patch('ballast.service.requests.delete', return_value=_MockResponse(200))
     def test_delete_ok(self, mock_request):
         self.assert_request_ok(mock_request, self._service.delete)
 
-    @mock.patch('balast.service.requests.request', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.request', return_value=_MockResponse(500))
     def test_all_request_servers_error(self, mock_request):
 
         mock_request.side_effect = exceptions.RequestException('mock exception')
@@ -157,42 +157,42 @@ class ServiceTest(unittest.TestCase):
         for hostname in hostnames:
             self.assertIn(hostname, _EXPECTED_SERVERS)
 
-    @mock.patch('balast.service.requests.options', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.options', return_value=_MockResponse(500))
     def test_all_options_servers_error(self, mock_request):
         mock_request.side_effect = exceptions.RequestException('mock exception')
         self.assert_all_servers_fail(mock_request, self._service.options)
 
-    @mock.patch('balast.service.requests.head', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.head', return_value=_MockResponse(500))
     def test_all_head_servers_error(self, mock_request):
         mock_request.side_effect = exceptions.RequestException('mock exception')
         self.assert_all_servers_fail(mock_request, self._service.head)
 
-    @mock.patch('balast.service.requests.get', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.get', return_value=_MockResponse(500))
     def test_all_get_servers_error(self, mock_request):
         mock_request.side_effect = exceptions.RequestException('mock exception')
         self.assert_all_servers_fail(mock_request, self._service.get)
 
-    @mock.patch('balast.service.requests.post', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.post', return_value=_MockResponse(500))
     def test_all_post_servers_error(self, mock_request):
         mock_request.side_effect = exceptions.RequestException('mock exception')
         self.assert_all_servers_fail(mock_request, self._service.post)
 
-    @mock.patch('balast.service.requests.put', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.put', return_value=_MockResponse(500))
     def test_all_put_servers_error(self, mock_request):
         mock_request.side_effect = exceptions.RequestException('mock exception')
         self.assert_all_servers_fail(mock_request, self._service.put)
 
-    @mock.patch('balast.service.requests.patch', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.patch', return_value=_MockResponse(500))
     def test_all_patch_servers_error(self, mock_request):
         mock_request.side_effect = exceptions.RequestException('mock exception')
         self.assert_all_servers_fail(mock_request, self._service.patch)
 
-    @mock.patch('balast.service.requests.delete', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.delete', return_value=_MockResponse(500))
     def test_all_delete_servers_error(self, mock_request):
         mock_request.side_effect = exceptions.RequestException('mock exception')
         self.assert_all_servers_fail(mock_request, self._service.delete)
 
-    @mock.patch('balast.service.requests.request', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.request', return_value=_MockResponse(500))
     def test_all_request_servers_500(self, mock_request):
 
         # will try each server, and mark each down on a 500 response
@@ -218,31 +218,31 @@ class ServiceTest(unittest.TestCase):
         for hostname in hostnames:
             self.assertIn(hostname, _EXPECTED_SERVERS)
 
-    @mock.patch('balast.service.requests.options', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.options', return_value=_MockResponse(500))
     def test_all_options_servers_500(self, mock_request):
         self.assert_all_servers_fail(mock_request, self._service.options)
 
-    @mock.patch('balast.service.requests.head', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.head', return_value=_MockResponse(500))
     def test_all_head_servers_500(self, mock_request):
         self.assert_all_servers_fail(mock_request, self._service.head)
 
-    @mock.patch('balast.service.requests.get', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.get', return_value=_MockResponse(500))
     def test_all_get_servers_500(self, mock_request):
         self.assert_all_servers_fail(mock_request, self._service.get)
 
-    @mock.patch('balast.service.requests.post', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.post', return_value=_MockResponse(500))
     def test_all_post_servers_500(self, mock_request):
         self.assert_all_servers_fail(mock_request, self._service.post)
 
-    @mock.patch('balast.service.requests.put', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.put', return_value=_MockResponse(500))
     def test_all_put_servers_500(self, mock_request):
         self.assert_all_servers_fail(mock_request, self._service.put)
 
-    @mock.patch('balast.service.requests.patch', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.patch', return_value=_MockResponse(500))
     def test_all_patch_servers_500(self, mock_request):
         self.assert_all_servers_fail(mock_request, self._service.patch)
 
-    @mock.patch('balast.service.requests.delete', return_value=_MockResponse(500))
+    @mock.patch('ballast.service.requests.delete', return_value=_MockResponse(500))
     def test_all_delete_servers_500(self, mock_request):
         self.assert_all_servers_fail(mock_request, self._service.delete)
 

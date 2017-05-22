@@ -1,9 +1,9 @@
 import logging
 import threading
 import time
-from balast.discovery import ServerList
-from balast.rule import Rule, RoundRobinRule
-from balast.ping import (
+from ballast.discovery import ServerList
+from ballast.rule import Rule, RoundRobinRule
+from ballast.ping import (
     Ping,
     SocketPing,
     PingStrategy,
@@ -118,7 +118,7 @@ class LoadBalancer(object):
     def ping_async(self, server=None):
         if server is None:
             # self._ping_all_servers()
-            t = threading.Thread(name='balast-worker', target=self._ping_all_servers)
+            t = threading.Thread(name='ballast-worker', target=self._ping_all_servers)
             t.daemon = True
             t.start()
         else:
@@ -141,7 +141,7 @@ class LoadBalancer(object):
                 return
 
             self._ping_timer_running = True
-            self._ping_timer = threading.Thread(name='balast-worker', target=self._ping_loop)
+            self._ping_timer = threading.Thread(name='ballast-worker', target=self._ping_loop)
             self._ping_timer.daemon = True
             self._ping_timer.start()
 

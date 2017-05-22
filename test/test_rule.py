@@ -1,9 +1,9 @@
 import unittest
-from balast import LoadBalancer
-from balast.discovery.static import StaticServerList
-from balast.rule import RoundRobinRule
-from balast.ping import Ping, DummyPing
-from balast.exception import BalastException
+from ballast import LoadBalancer
+from ballast.discovery.static import StaticServerList
+from ballast.rule import RoundRobinRule
+from ballast.ping import Ping, DummyPing
+from ballast.exception import BallastException
 
 
 class _MockPing(Ping):
@@ -20,7 +20,7 @@ class RoundRobinRuleTest(unittest.TestCase):
 
     def test_choose_without_setting_balancer(self):
         rule = RoundRobinRule()
-        self.assertRaises(BalastException, rule.choose)
+        self.assertRaises(BallastException, rule.choose)
 
     def test_equal_choice(self):
 
@@ -71,4 +71,4 @@ class RoundRobinRuleTest(unittest.TestCase):
         rule = RoundRobinRule()
         rule.load_balancer = load_balancer
 
-        self.assertRaises(BalastException, rule.choose)
+        self.assertRaises(BallastException, rule.choose)

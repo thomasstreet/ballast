@@ -2,9 +2,9 @@ import unittest
 import mock
 import socket
 import time
-from balast import Server
-from balast.discovery.static import StaticServerList
-from balast.ping import (
+from ballast import Server
+from ballast.discovery.static import StaticServerList
+from ballast.ping import (
     Ping,
     DummyPing,
     SocketPing,
@@ -41,7 +41,7 @@ class DummyPingTest(unittest.TestCase):
 
 class SocketPingTest(unittest.TestCase):
 
-    @mock.patch('balast.ping.socket.socket')
+    @mock.patch('ballast.ping.socket.socket')
     def test_is_socket_alive_success(self, mock_socket):
 
         expected_ping_time = 3
@@ -60,7 +60,7 @@ class SocketPingTest(unittest.TestCase):
         s.settimeout.assert_called_with(expected_ping_time)
         s.connect.assert_called_with(('127.0.0.1', 80))
 
-    @mock.patch('balast.ping.socket.socket.connect')
+    @mock.patch('ballast.ping.socket.socket.connect')
     def test_is_socket_alive_fails(self, mock_connect):
 
         mock_connect.side_effect = Exception('mock exception')
@@ -74,7 +74,7 @@ class SocketPingTest(unittest.TestCase):
 
 class UrlPingTest(unittest.TestCase):
 
-    @mock.patch('balast.ping.requests.get')
+    @mock.patch('ballast.ping.requests.get')
     def test_is_url_alive_success(self, mock_get_request):
 
         ping = UrlPing()
@@ -93,7 +93,7 @@ class UrlPingTest(unittest.TestCase):
         self.assertTrue(ping.is_alive(server))
         mock_get_request.assert_called_with(expected_https_address)
 
-    @mock.patch('balast.ping.requests.get')
+    @mock.patch('ballast.ping.requests.get')
     def test_is_url_alive_fails(self, mock_get_request):
 
         mock_get_request.side_effect = Exception('mock exception')

@@ -1,34 +1,34 @@
-Balast api reference
+Ballast api reference
 ==================================
 
-.. automodule:: balast
+.. automodule:: ballast
    :members:
    :undoc-members:
 
-.. automodule:: balast.ping
+.. automodule:: ballast.ping
    :members:
    :undoc-members:
 
-.. automodule:: balast.rule
+.. automodule:: ballast.rule
    :members:
    :undoc-members:
 
-.. automodule:: balast.exception
+.. automodule:: ballast.exception
    :members:
    :undoc-members:
 
-.. automodule:: balast.discovery
+.. automodule:: ballast.discovery
    :members:
    :undoc-members:
 
-.. automodule:: balast.discovery.static
+.. automodule:: ballast.discovery.static
    :members:
    :undoc-members:
 
-.. automodule:: balast.discovery.ns
+.. automodule:: ballast.discovery.ns
    :members:
    :undoc-members:
 
-.. automodule:: balast.discovery.consul
+.. automodule:: ballast.discovery.consul
    :members:
    :undoc-members:

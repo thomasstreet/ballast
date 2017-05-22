@@ -2,7 +2,7 @@ import unittest
 import mock
 from past.builtins import str
 from requests import models
-from balast.discovery.consul import ConsulRestRecordList
+from ballast.discovery.consul import ConsulRestRecordList
 try:
     from urllib.parse import urlparse, parse_qs
 except ImportError:
@@ -45,7 +45,7 @@ class _MockResponse(models.Response):
 
 class ConsulRestRecordListTest(unittest.TestCase):
 
-    @mock.patch('balast.discovery.consul.requests.get', return_value=_MockResponse(_MOCK_RESPONSE))
+    @mock.patch('ballast.discovery.consul.requests.get', return_value=_MockResponse(_MOCK_RESPONSE))
     def test_resolve(self, mock_get_request):
 
         consul_base_url = 'http://my.consul.url'
@@ -75,7 +75,7 @@ class ConsulRestRecordListTest(unittest.TestCase):
         self.assertIn(near, actual_query['near'])
         self.assertIn(tag, actual_query['tag'])
 
-    @mock.patch('balast.discovery.consul.requests.get', return_value=_MockResponse(_MOCK_RESPONSE))
+    @mock.patch('ballast.discovery.consul.requests.get', return_value=_MockResponse(_MOCK_RESPONSE))
     def test_resolve_with_defaults(self, mock_get_request):
 
         consul_base_url = 'http://my.consul.url'

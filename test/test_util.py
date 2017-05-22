@@ -1,6 +1,6 @@
 import unittest
 from past.builtins import unicode
-from balast.util import UrlBuilder
+from ballast.util import UrlBuilder
 try:
     from urllib.parse import urlparse, parse_qs
 except ImportError:

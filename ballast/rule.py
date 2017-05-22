@@ -1,8 +1,8 @@
 import abc
 import threading
 from queue import Queue
-from balast.discovery import Server
-from balast.exception import BalastException, NoReachableServers
+from ballast.discovery import Server
+from ballast.exception import BallastException, NoReachableServers
 
 
 class Rule(object):
@@ -37,7 +37,7 @@ class RoundRobinRule(Rule):
         with self._lock:
 
             if self._load_balancer is None:
-                raise BalastException("Load balancer not set!")
+                raise BallastException("Load balancer not set!")
 
             # push all available servers back onto
             # the queue if the queue is empty

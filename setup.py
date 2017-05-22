@@ -78,19 +78,19 @@ with open('README.rst', 'r') as f:
     readme = f.read()
 
 
-setup(name='balast',
+setup(name='ballast',
       version=get_version(),
-      description='Balast client-side load-balancing framework',
+      description='Ballast client-side load-balancing framework',
       long_description=readme,
       author='Justin Smith',
       author_email='smith.justin.c@gmail.com',
       maintainer='Justin Smith',
       maintainer_email='smith.justin.c@gmail.com',
       license='MIT',
-      url='https://github.com/radishllc/balast',
+      url='https://github.com/radishllc/ballast',
       packages=find_packages(exclude=['test', 'docs']),
       package_data={
-          'balast': ['../version.py', '../LICENSE'],
+          'ballast': ['../version.py', '../LICENSE'],
       },
       include_package_data=True,
       setup_requires=['pytest-runner'],
