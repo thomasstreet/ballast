@@ -2,10 +2,10 @@ Ballast client-side load-balancing
 ==================================
 
 .. image:: https://img.shields.io/pypi/v/ballast.svg
-   :target: https://testpypi.python.org/pypi/ballast
+   :target: https://pypi.python.org/pypi/ballast
 
 .. image:: https://img.shields.io/pypi/status/ballast.svg
-   :target: https://testpypi.python.org/pypi/ballast
+   :target: https://pypi.python.org/pypi/ballast
 
 .. image:: https://travis-ci.org/thomasstreet/ballast.svg?branch=master
    :target: https://travis-ci.org/thomasstreet/ballast
