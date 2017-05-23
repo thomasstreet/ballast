@@ -42,3 +42,5 @@ package:
 
 **NOTE:** at this point in time, only the basic api features from the
 `requests <http://docs.python-requests.org/en/master/user/quickstart/#make-a-request>`_ package are supported.
+
+For advanced usage, checkout the `docs <http://ballast.readthedocs.io>`_
