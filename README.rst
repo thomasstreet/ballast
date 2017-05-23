@@ -7,11 +7,11 @@ Ballast client-side load-balancing
 .. image:: https://img.shields.io/pypi/status/ballast.svg
    :target: https://testpypi.python.org/pypi/ballast
 
-.. image:: https://travis-ci.org/RadishLLC/ballast.svg?branch=master
-   :target: https://travis-ci.org/RadishLLC/ballast
+.. image:: https://travis-ci.org/thomasstreet/ballast.svg?branch=master
+   :target: https://travis-ci.org/thomasstreet/ballast
 
-.. image:: https://coveralls.io/repos/github/RadishLLC/ballast/badge.svg?branch=master
-   :target: https://coveralls.io/github/RadishLLC/ballast?branch=master
+.. image:: https://coveralls.io/repos/github/thomasstreet/ballast/badge.svg?branch=master
+   :target: https://coveralls.io/github/thomasstreet/ballast?branch=master
 
 .. image:: https://readthedocs.org/projects/ballast/badge/?version=latest
    :target: http://ballast.readthedocs.io/en/latest/?badge=latest

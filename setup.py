@@ -86,8 +86,8 @@ setup(name='ballast',
       author_email='smith.justin.c@gmail.com',
       maintainer='Justin Smith',
       maintainer_email='smith.justin.c@gmail.com',
-      license='MIT',
-      url='https://github.com/radishllc/ballast',
+      license='Apache License 2.0',
+      url='https://github.com/thomasstreet/ballast',
       packages=find_packages(exclude=['test', 'docs']),
       package_data={
           'ballast': ['../version.py', '../LICENSE'],
@@ -119,7 +119,7 @@ setup(name='ballast',
           'Topic :: Software Development :: Libraries :: Python Modules',
 
           # Pick your license as you wish (should match "license" above)
-          'License :: OSI Approved :: MIT License',
+          'License :: OSI Approved :: Apache Software License',
 
           # Specify the Python versions you support here. In particular, ensure
           # that you indicate whether you support Python 2, Python 3 or both.

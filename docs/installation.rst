@@ -3,7 +3,7 @@
 Installation
 ============
 Binaries are available via `pip <https://pip.pypa.io/en/stable/installing/>`_.
-Source code is available on `github <https://github.com/radishllc/ballast>`_.
+Source code is available on `github <https://github.com/thomasstreet/ballast>`_.
 
 Pip Install
 -----------
@@ -17,4 +17,4 @@ Get the Source Code
 
 Clone the public repository from github::
 
-    $ git clone git@github.com:radishllc/ballast.git
+    $ git clone git@github.com:thomasstreet/ballast.git
