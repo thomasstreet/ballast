@@ -1,5 +1,5 @@
 alabaster==0.7.10
-Babel==2.4.0
+Babel==2.9.1
 bumpversion==0.5.3
 CommonMark==0.5.4
 docutils==0.13.1
