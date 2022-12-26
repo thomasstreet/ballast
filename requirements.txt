@@ -20,4 +20,4 @@ snowballstemmer==1.2.1
 Sphinx==1.5.5
 tox==2.7.0
 virtualenv==15.1.0
-wheel==0.24.0
+wheel==0.38.1
